@@ -4,4 +4,5 @@
 bin
 work
 obj
-
+#ignore emacs backup files
+*~
