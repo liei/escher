@@ -1,0 +1,27 @@
+#ifndef __ESCHER__
+#define __ESCHER__
+
+typedef struct{ 
+  int n_simulations; //Number of simulations
+  int mc_steps;      //Steps in Monte Carlo
+
+  int size_x;        //Sample size for x
+  int result_x;      //Results for x (positives)
+  int size_y;        //Sample size for y
+  int result_y;      //Results for y (positives)
+  int sample_size;   //Sample size for simulation
+
+  double *tp_alpha;
+  double *tp_beta;
+  
+} simulation;
+
+
+
+
+
+
+
+
+
+#endif
