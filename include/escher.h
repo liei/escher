@@ -6,7 +6,7 @@
 extern int parse_sim(simulation_t *sim, char *simfile);
 
 char *  options(int argc, char **argv);
-void run_simulation(simulation_t *sim);
+void run_simulation(simulation_t *sim,FILE *outfile);
 
 
 

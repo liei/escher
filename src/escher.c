@@ -24,27 +24,36 @@
 #include <statistics.h>
 #include <simulation.h>
 
+#ifdef DEBUG
+  #define DMSG(msg) printf("%s\n",msg);
+#else
+  #define DMSG(msg)
+#endif
+
 static simulation_t *sim;
 static gsl_rng *gen; 
+static FILE *outfile;
 
 int main(int argc, char **argv){
-
-
   char *simfile = options(argc,argv);
   parse_sim(sim = malloc(sizeof(simulation_t)),simfile);
 
   gen = gsl_rng_alloc(gsl_rng_mt19937);
   gsl_rng_set(gen,time(NULL));
+  
+  run_simulation(sim,outfile);
 
-  run_simulation(sim);
-
+  DMSG("free_sim");
   finalize_simulation(sim);
+  DMSG("free rng");
+  printf("gen: %p\n",gen);
   gsl_rng_free(gen);
-
+  DMSG("exit program");
   return EXIT_SUCCESS;
 }
 
 char * options(int argc, char **argv){
+  DMSG("enter options");
   char *simfile;
 
   int opt = 0;
@@ -55,7 +64,7 @@ char * options(int argc, char **argv){
       simfile = optarg;
       break;
     case 'o':
-      if(freopen(optarg,"w",stdout) == NULL){
+      if((outfile = fopen(optarg,"w")) == NULL){
 	fprintf(stderr,"Couldn't write to output file: %s\n",optarg); 
         exit(EXIT_FAILURE);
       }
@@ -68,9 +77,11 @@ char * options(int argc, char **argv){
     simfile = argv[optind];
   }
   return simfile;
+  DMSG("leave options\n");
 }
 
-void run_simulation(simulation_t *sim){
+void run_simulation(simulation_t *sim,FILE *outfile){
+  DMSG("enter run_simulation");
   int *historyZ = malloc(sizeof(int) * sim->iterations);
   double *historyTheta = malloc(sizeof(double) * sim->iterations);	
 
@@ -85,9 +96,10 @@ void run_simulation(simulation_t *sim){
     bootstrap(gen,sim,&x,&y);
     historyTheta[i] = gibbs_sampler(gen,sim,historyZ,i,x,y);
   }	
-  fprintf(stdout,"Z,\ttheta\n");
+  fprintf(outfile,"Z,\ttheta\n");
   
   for(int i = 0; i < sim->iterations; i++){
-    fprintf(stdout,"[%5d] Successes: %3d\t Theta = %.10f\n",i,historyZ[i],historyTheta[i]);
+    fprintf(outfile,"[%5d] Successes: %3d\t Theta = %.10f\n",i,historyZ[i],historyTheta[i]);
   }  
+  DMSG("leave runsim");
 }
