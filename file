@@ -2,8 +2,7 @@
 iterations = 10
 steps = 3
 
-x_size = 200
-x_pos = 200
+x = 200/200
 y_size = 200
 y_pos = 190
 

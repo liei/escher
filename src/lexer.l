@@ -1,11 +1,11 @@
 %{
 #include <stdio.h>
-#include <parser.h>
+#include "y.tab.h" //header file produced by yacc
 
 #ifdef DUMP_TOKENS
-    #define RETURN(t) do {                                          \
+    #define RETURN(t) do {                                         \
         fprintf ( stderr, "TOKN ( %d,\t'%s' )\n", t, yytext );     \
-        return t;                                                   \
+        return t;                                                  \
     } while ( 0 )
 #else
     #define RETURN(t) return t
@@ -19,7 +19,7 @@
 WHITESPACE [\ \t\n]
 DIGIT      [0-9]
 INTEGER    {DIGIT}+
-DOUBLE     {DIGIT}+(.{DIGIT}+)?
+DOUBLE     {DIGIT}+(\.{DIGIT}+)?
 COMMENT    \#[^\n]*\n
 
 %%
@@ -28,11 +28,13 @@ COMMENT    \#[^\n]*\n
 
 iterations       {RETURN(T_ITERATIONS);}
 steps            {RETURN(T_STEPS);}
+samples          {RETURN(T_SAMPLES);}
+x                {RETURN(T_X);}
 x_size           {RETURN(T_XSIZE);}
 x_pos            {RETURN(T_XPOS);}
+y                {RETURN(T_Y);}
 y_size           {RETURN(T_YSIZE);}
 y_pos            {RETURN(T_YPOS);}
-samples          {RETURN(T_SAMPLES);}
 alpha            {RETURN(T_ALPHA);}
 beta             {RETURN(T_BETA);}
 

@@ -23,7 +23,6 @@
 #include <escher.h>
 #include <statistics.h>
 #include <simulation.h>
-#include <parser.h>
 
 static simulation_t *sim;
 static gsl_rng *gen; 

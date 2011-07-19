@@ -29,7 +29,7 @@ void parse_sim(simulation_t *sim, char *filename);
 
 %}
 
-%token T_ITERATIONS T_STEPS T_XSIZE T_XPOS T_YSIZE T_YPOS T_SAMPLES T_ALPHA T_BETA 
+%token T_ITERATIONS T_STEPS T_SAMPLES T_X T_XSIZE T_XPOS T_Y T_YSIZE T_YPOS T_ALPHA T_BETA 
 
 %union {
   int t_integer;
@@ -51,11 +51,13 @@ assignment_list:    /*empty*/
 
 assignment:         T_ITERATIONS  '=' integer       {yysim->iterations = $3;}
           |         T_STEPS '=' integer             {yysim->steps = $3;}
+          |         T_SAMPLES '=' integer           {yysim->samples = $3;}
+          |         T_X '=' integer '/' integer     {yysim->x_pos = $3; yysim->x_size = $5;}
           |         T_XSIZE '=' integer             {yysim->x_size = $3;}
           |         T_XPOS  '=' integer             {yysim->x_pos = $3;}
+          |         T_Y '=' integer '/' integer     {yysim->y_pos = $3; yysim->y_size = $5;}
           |         T_YSIZE '=' integer             {yysim->y_size = $3;}
           |         T_YPOS  '=' integer             {yysim->y_pos = $3;}
-          |         T_SAMPLES '=' integer           {yysim->samples = $3;}
           |         T_ALPHA '=' '[' list ']'        {assign_list(T_ALPHA,$4);}
           |         T_BETA '=' '[' list ']'         {assign_list(T_BETA,$4);}          
           ;
