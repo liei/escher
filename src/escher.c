@@ -82,11 +82,11 @@ char * options(int argc, char **argv){
 
 void run_simulation(simulation_t *sim,FILE *outfile){
   DMSG("enter run_simulation");
-  int *historyZ = malloc(sizeof(int) * sim->iterations);
-  double *historyTheta = malloc(sizeof(double) * sim->iterations);	
+  int *historyZ = malloc(sizeof(int) * (sim->iterations + 1));
+  double *historyTheta = malloc(sizeof(double) * (sim->iterations + 1));	
 
   historyZ[0] = 200;
-  historyTheta[0] = 0.6;
+  
 
   int x,y,z;
   double theta;
@@ -98,7 +98,7 @@ void run_simulation(simulation_t *sim,FILE *outfile){
   }	
   fprintf(outfile,"Z,\ttheta\n");
   
-  for(int i = 0; i < sim->iterations; i++){
+  for(int i = 1; i <= sim->iterations; i++){
     fprintf(outfile,"[%5d] Successes: %3d\t Theta = %.10f\n",i,historyZ[i],historyTheta[i]);
   }  
   DMSG("leave runsim");
