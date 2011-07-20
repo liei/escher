@@ -46,7 +46,6 @@ int main(int argc, char **argv){
   DMSG("free_sim");
   finalize_simulation(sim);
   DMSG("free rng");
-  printf("gen: %p\n",gen);
   gsl_rng_free(gen);
   DMSG("exit program");
   return EXIT_SUCCESS;
@@ -76,8 +75,10 @@ char * options(int argc, char **argv){
   if(optind < argc){
     simfile = argv[optind];
   }
-  return simfile;
   DMSG("leave options\n");
+  if(outfile == NULL) 
+    outfile = stdout;
+  return simfile;
 }
 
 void run_simulation(simulation_t *sim,FILE *outfile){
