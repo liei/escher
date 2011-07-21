@@ -1,5 +1,5 @@
 This file contains the documentation for the program SimulationOne.cpp
-Writhen by Christian Page July 2011
+Written by Christian Page July 2011
 ####################################################
 I.   Preface	
 II.  Introduction to the biological problem to model
@@ -49,13 +49,3 @@ The program includes a number of funcitons, in the folowing section each functio
 The function bootstrap takes inn no argument and returns a pointer to an arrow, placed on the heap. Instead of taking in arguments the function uses only two globale constants, the number of replicats in X and Y, and the number of success in thise trails. Usin the original data, it then creates a new data set with similar structure (idintical for infinet data set). It is based on binomial distribution, with the observed success rate.
 
 deleteBootstrapPonter(int*) takes inn a pointer arrow and deletes it, this function is nessesary since the bootstrap function places the result as a array on the heap, so to avoid memory leak, the array has to be deleated after the bootstrap function is called and the returnparametes used.
-
-
-
- 
-
-
-
-
-
-
