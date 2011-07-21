@@ -1,4 +1,3 @@
-This file contains the documentation for the program SimulationOne.cpp
 Written by Christian Page July 2011
 ####################################################
 I.   Preface	
@@ -9,43 +8,56 @@ V.   Documentation of funcitons
 ###################################################
 
 I.
-This program is under NO copy right, and may be used for any purposes. The use of this program is at your own risk, and comes with ABSOLUTLY NO WARRANTY. 
-The program uses the library GSL (Gnu scientific library), so this should be installed before compiling and running the program. Compiling in gcc reqires the tags (?): -lgsl, -lgslcbals and -lm . This is for the random number generator in GSL to work.
+This program is under NO copyright, and may be used for any purposes. 
+The use of this program is at your own risk, and comes with ABSOLUTLY NO WARRANTY. 
+The program uses the library GSL (Gnu scientific library), so this should be installed 
+before compiling and running the program. 
 
 
 II.
-This program is used in relation to a genetic circet in E. coli for a double repressor.
+This program is used in relation to a genetic circuit in E. coli for a double repressor.
 
-The biological component in the systems should react under stress (eks. heat). Any stress in the cell will initiate the production of the stress protein ppGpp, which inhibits the production of lacI, from the Lac operon, lacI inhibits the production of mCherry (RPF, Red Fluorecens Protein), so if ppGpp is present, then mCherry should be expressed, and the cell turns red.
+The biological component in the systems should react under stress (eks. heat). 
+Any stress in the cell will initiate the production of the stress protein ppGpp, 
+which inhibits the production of lacI, from the Lac operon, lacI inhibits the 
+production of mCherry (RPF, Red Fluorecens Protein), so if ppGpp is present, 
+then mCherry should be expressed, and the cell turns red.
 
-The problem is modeled as a stochastic process "with only one path", it compleet theis path successfully with the product of all the transitionprobabilitys at each step. The step in the process is either a inhibitation of a gene, or a transcription. 
+The problem is modeled as a stochastic process "with only one path", it completes this 
+path successfully with the product of all the transitionprobabilities at each step. 
+The step in the process is either an inhibitation of a gene, or a transcription. 
 
-Any deviation from the path i the process will be considerd as a failure, and modeld as (1 - \theta), where \theta is the probability for a bacteria to succesfully express RFP under no data integration.
+Any deviation from the path i the process will be considerd as a failure, and modeled as (1 - \theta), 
+where \theta is the probability for a bacteria to succesfully express RFP under no data integration.
 
-The model is a combination of a Gibbs sample and a Metropolis (Hastings) algorithm, integratin data and prior assuptions / information.
+The model is a combination of a Gibbs sample and a Metropolis (Hastings) algorithm, integration data 
+and prior assumptions / information.
 
 -------Define X and Y and Z-----------------------
 
 III.
-The prior assuption is that the transition probabilityes are Beta distributed with \alpha_[i], and \beta_[i], where i goes from 1 to the nuber of different stages in the process, this nuber i ajusteble.
+The prior assuption is that the transition probabilityes are Beta distributed with \alpha_[i], and \beta_[i], 
+where i goes from 1 to the nuber of different stages in the process, this number is adjustable.
 
-One of the main assuption is that the probability for sucess, is independent of stress, that is; it is equaly likely for the bacterea to glow red under stress, as for the bacterea to not glow red in the abstens of stress. According to the biologist this is a reasnoble assuption, and does not violate any thing....
+One of the main assuption is that the probability for sucess, is independent of stress, 
+that is; it is equally likely for the bacteria to glow red under stress, as for the bacteria 
+to not glow red in the abstens of stress. According to the biologists this is a reasonable assumption, 
+and does not violate any thing.
 
-Assuming that the transition probability is Beta distributed, and the probability for success in the intagreated data is binomial distributed condition on the transition, the the full conditional for the posterior theta (product of all the transition) is Beta distributited with a, only with change parameters. 
+Assuming that the transition probability is Beta distributed, and the probability for success in the 
+integrated data is binomial distributed conditioned on the transition, then the full conditional for 
+the posterior theta (product of all the transition) is Beta distributited with a, only with change parameters. 
 
-Then a Gibbs sampler is run to sample the \theta, based on the \theat one can then sample Z, in this program a Metroplolis - Hastings algortim was chosen, .. gibbs..?
+Then a Gibbs sampler is run to sample the \theta, based on the \theat one can then sample Z, 
+in this program a Metroplolis-Hastings algortim was chosen, .. gibbs..?
 
  
 IV.
-The program takes inn the \alpha ´s and \beta `s for the beta distribution in for the transition probabilitys, the number of simulaitons has to be chosen, recomened will be from 2500 and up. The number of steps in the chan can also be set, but has to agree with \alpha and \beta. Last the data to integrate has to be added, this as the number of trails, and the nuber of successes. 
+The program takes inn the \alpha ´s and \beta `s for the beta distribution in for the transition probabilitys, t
+the number of simulaitons has to be chosen, recommended will be from 2500 and up. The number of steps in the 
+chan can also be set, but has to agree with \alpha and \beta. Last the data to integrate has to be added, 
+this as the number of trails, and the nuber of successes. 
 
 All this is set in the preface of the program under globale constants.
 
-Out of the program comes the simulated values for Z, as one long list, with the length equal to the number of simulaitons. 
-
-V.
-The program includes a number of funcitons, in the folowing section each function will be described in detail.
-
-The function bootstrap takes inn no argument and returns a pointer to an arrow, placed on the heap. Instead of taking in arguments the function uses only two globale constants, the number of replicats in X and Y, and the number of success in thise trails. Usin the original data, it then creates a new data set with similar structure (idintical for infinet data set). It is based on binomial distribution, with the observed success rate.
-
-deleteBootstrapPonter(int*) takes inn a pointer arrow and deletes it, this function is nessesary since the bootstrap function places the result as a array on the heap, so to avoid memory leak, the array has to be deleated after the bootstrap function is called and the returnparametes used.
+Out of the program comes the simulated values for Z, as one long list, with the length equal to the number of simulations.
